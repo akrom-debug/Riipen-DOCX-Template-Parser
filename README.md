@@ -78,6 +78,12 @@ From the repo root:
 dotnet run --project TemplateParser.Cli -- parse <filePath> <templateId>
 ```
 
+Shorter option from the repo root (recommended):
+
+```bash
+./parse <filePath> <templateId>
+```
+
 From inside `TemplateParser.Cli`:
 
 ```bash
