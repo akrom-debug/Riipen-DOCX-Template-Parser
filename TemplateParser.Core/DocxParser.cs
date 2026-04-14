@@ -36,7 +36,7 @@ public sealed class DocxParser
 
                 // I added the following line to space the output out a little better:
                 Console.WriteLine("--------------------------------");
-                return null;
+                
         }
     }
 
@@ -61,5 +61,8 @@ public sealed class DocxParser
         //
         // Do not place parsing logic in the CLI project; keep it in Core.
         throw new NotImplementedException("DOCX parsing is intentionally not implemented in this starter repository.");
+
+
+
     }
 }

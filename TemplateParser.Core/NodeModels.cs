@@ -9,7 +9,7 @@ public sealed class Node
     public Guid? ParentId { get; set; }
 
     public string Type { get; set; } = string.Empty;
-
+    
     public string Title { get; set; } = string.Empty;
 
     public int OrderIndex { get; set; }
