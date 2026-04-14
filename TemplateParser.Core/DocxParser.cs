@@ -1,5 +1,6 @@
 namespace TemplateParser.Core;
 using System;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
@@ -7,6 +8,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 public sealed class DocxParser
 {
+    
     public ParserResult ParseDocxTemplate(string filePath, Guid templateId)
     {
         // 1. Open the word document in read mode.
@@ -30,16 +32,46 @@ public sealed class DocxParser
                 string? style = p?.ParagraphProperties?.ParagraphStyleId?.Val ?? "No Style";
                 Console.WriteLine(style);
 
+                while (style == "Heading1" || style == "Heading2" || style == "Heading3")
+                {
+                    Console.WriteLine("This is a heading, so we will treat it as a section node in our output!");
+                    break;
+                
+                };
+
+                string? Type = style switch
+                {
+                    "Heading1" => "Section",
+                    "Heading2" => "Subsection",
+                    "Heading3" => "Subsubsection",
+                    _ => "Paragraph"
+                    
+                };
+
+                if (style == "Heading1" || style == "Heading2" || style == "Heading3")
+                    {
+                    Console.WriteLine("This is a heading, so we will treat it as a section node in our output!");
+                    }
+
+                    else if (style == "No Style")
+                    {
+                    Console.WriteLine("This paragraph has no style, so we will treat it as a regular paragraph node in our output!");
+                    };
+
+                string? Title = p?.InnerText.Length > 0 ? p.InnerText : "Untitled";
+
+                string MetadataJson = $"{{ \"Style\": \"{style}\" }}";
+
                 // 5. Extract and display the actual text.
                 string? text = p?.InnerText;
                 Console.WriteLine(text);
 
                 // I added the following line to space the output out a little better:
                 Console.WriteLine("--------------------------------");
+                
                 return null;
         }
     }
-
         // TODO (Week 1-4): Implement core DOCX parsing here.
         // Recommended responsibilities for this method:
         // 1) [Week 1] Learn DOCX structure and print paragraphs from the document.
