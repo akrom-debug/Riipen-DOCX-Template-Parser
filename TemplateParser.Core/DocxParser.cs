@@ -66,12 +66,13 @@ public sealed class DocxParser
                 }
 
 
-            while (sectionStack.Count > 0 && sectionStack.Peek().level >= heading)
+            /*while (sectionStack.Count > 0 && sectionStack.Peek().level >= heading)
                 {
                     sectionStack.Pop();
                 }       
+                */
 
-              
+            
 
                 // 5. Extract and display the actual text.
                 string? text = p?.InnerText;
