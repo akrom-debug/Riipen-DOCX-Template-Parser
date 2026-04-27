@@ -63,7 +63,6 @@ public sealed class DocxParser
                 */
                 string? Title = p?.InnerText.Length > 0 ? p.InnerText : "Untitled";
 
-<<<<<<< HEAD
 
             /*while (sectionStack.Count > 0 && sectionStack.Peek().level >= heading)
                 {
@@ -72,9 +71,6 @@ public sealed class DocxParser
                 */
 
             
-=======
-                string MetadataJson = $"{{ \"Style\": \"{style}\" }}";
->>>>>>> 6f76500aceff13c612a53cf0d48a4cac5f1ba692
 
                 // 5. Extract and display the actual text.
                 string? text = p?.InnerText;
