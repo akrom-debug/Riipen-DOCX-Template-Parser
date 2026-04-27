@@ -80,10 +80,6 @@ public sealed class DocxParser
                 // I added the following line to space the output out a little better:
                 Console.WriteLine("--------------------------------");
                 
-<<<<<<< HEAD
-=======
-                return null;
->>>>>>> 4aed26768615bdd413aa2aae29c442a1dddad8c7
         }
     }
         // TODO (Week 1-4): Implement core DOCX parsing here.
