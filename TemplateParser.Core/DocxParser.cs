@@ -32,6 +32,9 @@ public sealed class DocxParser
                 string? style = p?.ParagraphProperties?.ParagraphStyleId?.Val ?? "No Style";
                 Console.WriteLine(style);
 
+                //Guid Id Assignment
+
+
                 while (style == "Heading1" || style == "Heading2" || style == "Heading3")
                 {
                     Console.WriteLine("This is a heading, so we will treat it as a section node in our output!");
@@ -48,7 +51,7 @@ public sealed class DocxParser
                     
                 };
 
-                if (style == "Heading1" || style == "Heading2" || style == "Heading3")
+                /*if (style == "Heading1" || style == "Heading2" || style == "Heading3")
                     {
                     Console.WriteLine("This is a heading, so we will treat it as a section node in our output!");
                     }
@@ -57,7 +60,7 @@ public sealed class DocxParser
                     {
                     Console.WriteLine("This paragraph has no style, so we will treat it as a regular paragraph node in our output!");
                     };
-
+                */
                 string? Title = p?.InnerText.Length > 0 ? p.InnerText : "Untitled";
 
                 string MetadataJson = $"{{ \"Style\": \"{style}\" }}";
@@ -69,10 +72,7 @@ public sealed class DocxParser
                 // I added the following line to space the output out a little better:
                 Console.WriteLine("--------------------------------");
                 
-<<<<<<< HEAD
-=======
-                return null;
->>>>>>> 4aed26768615bdd413aa2aae29c442a1dddad8c7
+                
         }
     }
         // TODO (Week 1-4): Implement core DOCX parsing here.
