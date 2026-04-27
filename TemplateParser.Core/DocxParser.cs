@@ -1,6 +1,8 @@
 namespace TemplateParser.Core;
 using System;
+using DocumentFormat.OpenXml.ExtendedProperties;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Office2010.PowerPoint;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
@@ -11,6 +13,12 @@ public sealed class DocxParser
     
     public ParserResult ParseDocxTemplate(string filePath, Guid templateId)
     {
+        //This statement creates an empty list of nodes that we will populate as we parse the document. 
+        List<Node> nodes = new List<Node>();
+
+        //This statement keeps track of the level of the sections that are being created. 
+        Stack<(Node node, int level)> sectionStack = new Stack<(Node node, int level)>();
+
         // 1. Open the word document in read mode.
         // 2. Parse the document.xml into XML object using the DocumentFormat.OpenXml library.
         using (WordprocessingDocument wordProcessingDocument = WordprocessingDocument.Open(filePath, false))
@@ -32,35 +40,38 @@ public sealed class DocxParser
                 string? style = p?.ParagraphProperties?.ParagraphStyleId?.Val ?? "No Style";
                 Console.WriteLine(style);
 
-                while (style == "Heading1" || style == "Heading2" || style == "Heading3")
-                {
-                    Console.WriteLine("This is a heading, so we will treat it as a section node in our output!");
-                    break;
+               
+
                 
-                };
+            int heading = -1; // -1 indicates not a heading, 0 = Heading1, 1 = Heading2, 2 = Heading3
 
-                string? Type = style switch
+                if (style == "Heading1")
                 {
-                    "Heading1" => "Section",
-                    "Heading2" => "Subsection",
-                    "Heading3" => "Subsubsection",
-                    _ => "Paragraph"
-                    
-                };
+                    heading = 0;
+                }
 
-                if (style == "Heading1" || style == "Heading2" || style == "Heading3")
-                    {
-                    Console.WriteLine("This is a heading, so we will treat it as a section node in our output!");
-                    }
+                else if (style == "Heading2")
+                {
+                    heading = 1;
+                }
 
-                    else if (style == "No Style")
-                    {
-                    Console.WriteLine("This paragraph has no style, so we will treat it as a regular paragraph node in our output!");
-                    };
+                else if (style == "Heading3")
+                {
+                    heading = 2;
+                }
+                
+                else
+                {
+                    continue; 
+                }
 
-                string? Title = p?.InnerText.Length > 0 ? p.InnerText : "Untitled";
 
-                string MetadataJson = $"{{ \"Style\": \"{style}\" }}";
+            while (sectionStack.Count > 0 && sectionStack.Peek().level >= heading)
+                {
+                    sectionStack.Pop();
+                }       
+
+              
 
                 // 5. Extract and display the actual text.
                 string? text = p?.InnerText;
@@ -69,7 +80,7 @@ public sealed class DocxParser
                 // I added the following line to space the output out a little better:
                 Console.WriteLine("--------------------------------");
                 
-                return null;
+                
         }
     }
         // TODO (Week 1-4): Implement core DOCX parsing here.
