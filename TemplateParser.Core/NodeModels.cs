@@ -14,8 +14,6 @@ public sealed class Node
 
     public string Type { get; set; } = string.Empty;
 
-    
-
     public string Title { get; set; } = string.Empty;
 
     public int OrderIndex { get; set; }
